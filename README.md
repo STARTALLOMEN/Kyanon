@@ -57,13 +57,13 @@ pip install -r requirements.txt
 
 ```bash
 # Cách 1: Sử dụng file mặc định (orders.csv -> report.csv)
-python build_report.py
+python solution_py.py
 
 # Cách 2: Chỉ định file input/output
-python build_report.py --input orders.csv --output report.csv
+python solution_py.py --input orders.csv --output report.csv
 
 # Cách 3: Rút gọn
-python build_report.py -i orders.csv -o report.csv
+python solution_py.py -i orders.csv -o report.csv
 ```
 
 ### Output
@@ -113,7 +113,7 @@ date,amount
 
 ### Giải thích code
 
-File `build_report.py` thực hiện:
+File `solution_py.py` thực hiện:
 1. **Đọc CSV:** Sử dụng `pd.read_csv()` với `parse_dates=["order_date"]`
 2. **Lọc dữ liệu:** Giữ lại các đơn hàng có `status == "completed"`
 3. **Group by ngày:** Sử dụng `df["order_date"].dt.date` để bỏ phần giờ
@@ -221,7 +221,7 @@ File `test_report.py` bao gồm:
 d:\Kyanon\
 ├── orders.csv              # Dữ liệu đầu vào (12 đơn hàng)
 ├── report.csv              # Kết quả output
-├── build_report.py         # Giải pháp Python (Pandas)
+├── solution_py.py          # Giải pháp Python (Pandas)
 ├── solution_sql.py         # Giải pháp SQL (SQLite)
 ├── queries.sql             # SQL queries thuần túy
 ├── test_report.py          # Unit tests

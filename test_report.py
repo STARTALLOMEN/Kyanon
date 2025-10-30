@@ -1,6 +1,6 @@
 import pandas as pd
 import pytest
-from build_report import build_report
+from solution_py import build_report
 
 def test_totals(tmp_path):
     """Test tính tổng amount theo ngày cho các đơn hàng completed"""
@@ -22,7 +22,7 @@ def test_totals(tmp_path):
     
     # Assert
     out = pd.read_csv(output_csv)
-    assert out["amount"].sum() == 150.0  # 100 (ngày 1) + 50 (ngày 2)
+    assert out["amount"].sum() == 150.0 
     assert len(out) == 2  # 2 ngày
     assert "date" in out.columns
     assert "amount" in out.columns
@@ -46,11 +46,11 @@ def test_filter_completed_only(tmp_path):
     
     # Assert
     out = pd.read_csv(output_csv)
-    assert out["amount"].sum() == 250.0  # Chỉ 100 + 150 (completed)
+    assert out["amount"].sum() == 250.0  
     assert len(out) == 1  # 1 ngày
 
 def test_group_by_date(tmp_path):
-    """Test group by theo ngày (bỏ giờ phút)"""
+    """Test group by theo ngày"""
     # Arrange
     input_csv = tmp_path / "orders.csv"
     df = pd.DataFrame({
@@ -68,5 +68,5 @@ def test_group_by_date(tmp_path):
     
     # Assert
     out = pd.read_csv(output_csv)
-    assert len(out) == 2  # 2 ngày khác nhau
+    assert len(out) == 2 
     assert out.loc[out["date"] == "2025-01-01", "amount"].values[0] == 150.0  # 100 + 50

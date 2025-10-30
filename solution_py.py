@@ -16,29 +16,23 @@ def build_report(input_csv: str, output_csv: str = "report.csv") -> None:
     """
     print(f"📖 Đọc dữ liệu từ {input_csv}...")
     
-    # 1) Read CSV with parsing the date column
     df = pd.read_csv(input_csv, parse_dates=["order_date"])
     print(f"   Tổng số đơn hàng: {len(df)}")
     
-    # 2) Keep only completed orders
     df = df[df["status"].eq("completed")].copy()
     print(f"   Đơn hàng completed: {len(df)}")
     
-    # 3) Group by DATE part of order_date and sum amount
     df['date'] = df['order_date'].dt.date
     report = df.groupby('date', as_index=False)['amount'].sum()
     
-    # Round amount to 2 decimal places to avoid floating point errors
     report["amount"] = report["amount"].round(2)
     
-    # Convert to JSON format as required
     result_json = report.to_dict('records')
     result_json = [{"date": str(row['date']), "amount": str(row['amount'])} for row in result_json]
     
     print("\n📊 Kết quả (JSON format):")
     print(json.dumps(result_json, indent=2, ensure_ascii=False))
     
-    # 4) Save without index
     report.to_csv(output_csv, index=False)
     print(f"\n✅ Đã xuất kết quả ra file {output_csv}")
 

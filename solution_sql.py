@@ -15,16 +15,13 @@ def process_orders_sql(input_file='orders.csv', output_file='report.csv', db_fil
         db_file (str): Đường dẫn file SQLite database
     """
     
-    # Bước 1: Kết nối database và import dữ liệu
     print(f"📖 Import dữ liệu từ {input_file} vào SQLite...")
     conn = sqlite3.connect(db_file)
     
-    # Đọc CSV và import vào bảng orders
     df = pd.read_csv(input_file)
     df.to_sql('orders', conn, if_exists='replace', index=False)
     print(f"   Đã import {len(df)} đơn hàng vào database")
     
-    # Bước 2: Thực hiện SQL query
     query = """
     SELECT 
         DATE(order_date) as date,
@@ -38,7 +35,6 @@ def process_orders_sql(input_file='orders.csv', output_file='report.csv', db_fil
     print("\n🔍 Thực hiện SQL query:")
     print(query)
     
-    # Bước 3: Lấy kết quả
     result = pd.read_sql_query(query, conn)
     print(f"   Tìm thấy {len(result)} ngày có đơn hàng completed")
     
